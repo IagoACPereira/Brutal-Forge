@@ -1,0 +1,7 @@
+node_modules
+.env
+.eslintrc.json
+diario-dev.md
+topicos-pendetes.md
+topicos-pendentes.md
+dusInfernu.png
