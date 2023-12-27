@@ -46,5 +46,3 @@ generosRouter
   );
 
 module.exports = generosRouter;
-
-// 65649a1bc1378c37205fc2d5
