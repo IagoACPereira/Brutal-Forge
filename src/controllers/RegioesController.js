@@ -1,19 +1,29 @@
+const { validationResult } = require('express-validator');
 const Regiao = require('../models/Regioes');
 
 class RegioesController {
   static adicionar = async (req, res) => {
     try {
-      const novaRegiao = {
-        pais: req.body.pais,
-      };
+      const validacao = validationResult(req);
 
-      await Regiao.create(novaRegiao);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const novaRegiao = {
+          pais: req.body.pais,
+        };
 
-      res.status(201).json({
-        mensagem: `Regiao ${novaRegiao.pais} adicionado com sucesso!`,
-        dados: novaRegiao,
-        status: 201,
-      });
+        await Regiao.create(novaRegiao);
+
+        res.status(201).json({
+          mensagem: `Regiao ${novaRegiao.pais} adicionado com sucesso!`,
+          dados: novaRegiao,
+          status: 201,
+        });
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -25,9 +35,18 @@ class RegioesController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const regioes = await Regiao.find();
+      const validacao = validationResult(req);
 
-      res.status(200).json(regioes);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const regioes = await Regiao.find();
+
+        res.status(200).json(regioes);
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -39,11 +58,27 @@ class RegioesController {
 
   static exibirUm = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      const regiao = await Regiao.findById(id);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      res.status(200).json(regiao);
+        const regiao = await Regiao.findById(id);
+
+        if (regiao) {
+          res.status(200).json(regiao);
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe regiao com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -55,19 +90,37 @@ class RegioesController {
 
   static atualizar = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      const atualizacaoRegiao = {
-        pais: req.body.pais,
-      };
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      await Regiao.findByIdAndUpdate(id, atualizacaoRegiao);
+        const regiao = await Regiao.findById(id);
 
-      res.status(200).json({
-        mensagem: `Regiao de id ${id} foi atualiado com sucesso!`,
-        dados: atualizacaoRegiao,
-        status: 200,
-      });
+        if (regiao) {
+          const atualizacaoRegiao = {
+            pais: req.body.pais,
+          };
+
+          await Regiao.findByIdAndUpdate(id, atualizacaoRegiao);
+
+          res.status(200).json({
+            mensagem: `Regiao de id ${id} foi atualiado com sucesso!`,
+            dados: atualizacaoRegiao,
+            status: 200,
+          });
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe regiao com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -79,14 +132,32 @@ class RegioesController {
 
   static deletar = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      await Regiao.findByIdAndDelete(id);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      res.status(200).json({
-        mensagem: `A região de id ${id} foi deletado com sucesso!`,
-        status: 200,
-      });
+        const regiao = await Regiao.findById(id);
+
+        if (regiao) {
+          await Regiao.findByIdAndDelete(id);
+
+          res.status(200).json({
+            mensagem: `A região de id ${id} foi deletado com sucesso!`,
+            status: 200,
+          });
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe regiao com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
