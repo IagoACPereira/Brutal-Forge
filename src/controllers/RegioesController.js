@@ -169,4 +169,3 @@ class RegioesController {
 }
 
 module.exports = RegioesController;
- 
