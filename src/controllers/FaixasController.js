@@ -19,7 +19,7 @@ class FaixasController {
           album: req.body.album,
         };
 
-        // await Faixa.create(novaFaixa);
+        await Faixa.create(novaFaixa);
 
         res.status(201).json({
           mensagem: `Faixa ${novaFaixa.titulo} adicionado com sucesso!`,
@@ -113,7 +113,7 @@ class FaixasController {
             album: req.body.album,
           };
 
-          // await Faixa.findByIdAndUpdate(id, atualizacaoFaixa);
+          await Faixa.findByIdAndUpdate(id, atualizacaoFaixa);
 
           res.status(200).json({
             mensagem: `Faixa de id ${id} foi atualiado com sucesso!`,
@@ -151,7 +151,7 @@ class FaixasController {
         const faixas = await Faixa.findById(id);
 
         if (faixas) {
-          // await Faixa.findByIdAndDelete(id);
+          await Faixa.findByIdAndDelete(id);
 
           res.status(200).json({
             mensagem: `Faixa de id ${id} foi deletado com sucesso!`,
