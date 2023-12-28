@@ -1,20 +1,30 @@
+const { validationResult } = require('express-validator');
 const Gravadora = require('../models/Gravadoras');
 
 class GravadorasController {
   static adicionar = async (req, res) => {
     try {
-      const novaGravadora = {
-        nome: req.body.nome,
-        regiao: req.body.regiao,
-      };
+      const validacao = validationResult(req);
 
-      await Gravadora.create(novaGravadora);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const novaGravadora = {
+          nome: req.body.nome,
+          regiao: req.body.regiao,
+        };
 
-      res.status(201).json({
-        mensagem: `Gravadora ${novaGravadora.nome} adicionado com sucesso!`,
-        dados: novaGravadora,
-        status: 201,
-      });
+        await Gravadora.create(novaGravadora);
+
+        res.status(201).json({
+          mensagem: `Gravadora ${novaGravadora.nome} adicionado com sucesso!`,
+          dados: novaGravadora,
+          status: 201,
+        });
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -26,9 +36,18 @@ class GravadorasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const gravadoras = await Gravadora.find();
+      const validacao = validationResult(req);
 
-      res.status(200).json(gravadoras);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const gravadoras = await Gravadora.find();
+
+        res.status(200).json(gravadoras);
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -40,11 +59,27 @@ class GravadorasController {
 
   static exibirUm = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      const gravadora = await Gravadora.findById(id);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      res.status(200).json(gravadora);
+        const gravadora = await Gravadora.findById(id);
+
+        if (gravadora) {
+          res.status(200).json(gravadora);
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe gravadora com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -56,20 +91,38 @@ class GravadorasController {
 
   static atualizar = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      const atualizacaoGravadora = {
-        nome: req.body.nome,
-        regiao: req.body.regiao,
-      };
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      await Gravadora.findByIdAndUpdate(id, atualizacaoGravadora);
+        const gravadora = await Gravadora.findById(id);
 
-      res.status(200).json({
-        mensagem: `Gravadora de id ${id} foi atualiado com sucesso!`,
-        dados: atualizacaoGravadora,
-        status: 200,
-      });
+        if (gravadora) {
+          const atualizacaoGravadora = {
+            nome: req.body.nome,
+            regiao: req.body.regiao,
+          };
+
+          await Gravadora.findByIdAndUpdate(id, atualizacaoGravadora);
+
+          res.status(200).json({
+            mensagem: `Gravadora de id ${id} foi atualiado com sucesso!`,
+            dados: atualizacaoGravadora,
+            status: 200,
+          });
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe gravadora com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -81,14 +134,32 @@ class GravadorasController {
 
   static deletar = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      await Gravadora.findByIdAndDelete(id);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      res.status(200).json({
-        mensagem: `gravadora de id ${id} foi deletado com sucesso!`,
-        status: 200,
-      });
+        const gravadora = await Gravadora.findById(id);
+
+        if (gravadora) {
+          await Gravadora.findByIdAndDelete(id);
+
+          res.status(200).json({
+            mensagem: `gravadora de id ${id} foi deletado com sucesso!`,
+            status: 200,
+          });
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe gravadora com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
