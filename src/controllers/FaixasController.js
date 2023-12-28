@@ -1,22 +1,32 @@
+const { validationResult } = require('express-validator');
 const Faixa = require('../models/Faixas');
 
 class FaixasController {
   static adicionar = async (req, res) => {
     try {
-      const novaFaixa = {
-        titulo: req.body.titulo,
-        tempo_reproducao: req.body.tempo_reproducao,
-        num_faixa: req.body.num_faixa,
-        album: req.body.album,
-      };
+      const validacao = validationResult(req);
 
-      await Faixa.create(novaFaixa);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const novaFaixa = {
+          titulo: req.body.titulo,
+          tempo_reproducao: req.body.tempo_reproducao,
+          num_faixa: req.body.num_faixa,
+          album: req.body.album,
+        };
 
-      res.status(201).json({
-        mensagem: `Faixa ${novaFaixa.titulo} adicionado com sucesso!`,
-        dados: novaFaixa,
-        status: 201,
-      });
+        // await Faixa.create(novaFaixa);
+
+        res.status(201).json({
+          mensagem: `Faixa ${novaFaixa.titulo} adicionado com sucesso!`,
+          dados: novaFaixa,
+          status: 201,
+        });
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -28,9 +38,18 @@ class FaixasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const faixas = await Faixa.find();
+      const validacao = validationResult(req);
 
-      res.status(200).json(faixas);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const faixas = await Faixa.find();
+
+        res.status(200).json(faixas);
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -42,11 +61,27 @@ class FaixasController {
 
   static exibirUm = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      const faixas = await Faixa.findById(id);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      res.status(200).json(faixas);
+        const faixas = await Faixa.findById(id);
+
+        if (faixas) {
+          res.status(200).json(faixas);
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe faixas com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -58,22 +93,40 @@ class FaixasController {
 
   static atualizar = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      const atualizacaoFaixa = {
-        titulo: req.body.titulo,
-        tempo_reproducao: req.body.tempo_reproducao,
-        num_faixa: req.body.num_faixa,
-        album: req.body.album,
-      };
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      await Faixa.findByIdAndUpdate(id, atualizacaoFaixa);
+        const faixas = await Faixa.findById(id);
 
-      res.status(200).json({
-        mensagem: `Faixa de id ${id} foi atualiado com sucesso!`,
-        dados: atualizacaoFaixa,
-        status: 200,
-      });
+        if (faixas) {
+          const atualizacaoFaixa = {
+            titulo: req.body.titulo,
+            tempo_reproducao: req.body.tempo_reproducao,
+            num_faixa: req.body.num_faixa,
+            album: req.body.album,
+          };
+
+          // await Faixa.findByIdAndUpdate(id, atualizacaoFaixa);
+
+          res.status(200).json({
+            mensagem: `Faixa de id ${id} foi atualiado com sucesso!`,
+            dados: atualizacaoFaixa,
+            status: 200,
+          });
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe faixas com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
@@ -85,14 +138,32 @@ class FaixasController {
 
   static deletar = async (req, res) => {
     try {
-      const { id } = req.params;
+      const validacao = validationResult(req);
 
-      await Faixa.findByIdAndDelete(id);
+      if (!validacao.isEmpty()) {
+        res.status(400).send({
+          erro: validacao.array(),
+          status: 400,
+        });
+      } else {
+        const { id } = req.params;
 
-      res.status(200).json({
-        mensagem: `Faixa de id ${id} foi deletado com sucesso!`,
-        status: 200,
-      });
+        const faixas = await Faixa.findById(id);
+
+        if (faixas) {
+          // await Faixa.findByIdAndDelete(id);
+
+          res.status(200).json({
+            mensagem: `Faixa de id ${id} foi deletado com sucesso!`,
+            status: 200,
+          });
+        } else {
+          res.status(400).json({
+            mensagem: `Não existe faixas com o id ${id}`,
+            status: 400,
+          });
+        }
+      }
     } catch (error) {
       res.status(500).json({
         mensagem: 'Ocorreu um erro interno no servidor!',
