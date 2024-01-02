@@ -30,12 +30,13 @@ class GravadorasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const { pagina } = req.query;
+      const pagina = req.query.pagina || 1;
+      const limite = req.query.limite || 10;
 
       const gravadoras = await Gravadora
         .find()
-        .skip((pagina - 1) * 10)
-        .limit(10);
+        .skip((pagina - 1) * limite)
+        .limit(limite);
 
       res.status(200).json(gravadoras);
     } catch (error) {

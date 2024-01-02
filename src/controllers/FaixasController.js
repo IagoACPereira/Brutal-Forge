@@ -32,12 +32,13 @@ class FaixasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const { pagina } = req.query;
+      const pagina = req.query.pagina || 1;
+      const limite = req.query.limite || 10;
 
       const faixas = await Faixa
         .find()
-        .skip((pagina - 1) * 10)
-        .limit(10);
+        .skip((pagina - 1) * limite)
+        .limit(limite);
 
       res.status(200).json(faixas);
     } catch (error) {
