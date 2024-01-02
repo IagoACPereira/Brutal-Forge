@@ -34,15 +34,14 @@ class BandasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const validacao = validationResult(req);
+      const { pagina } = req.query;
 
-      if (!validacao.isEmpty()) {
-        Erros.erroValidacao(res, validacao);
-      } else {
-        const bandas = await Banda.find();
+      const bandas = await Banda
+        .find()
+        .skip((pagina - 1) * 10)
+        .limit(10);
 
-        res.status(200).json(bandas);
-      }
+      res.status(200).json(bandas);
     } catch (error) {
       Erros.erro500(res, error);
     }

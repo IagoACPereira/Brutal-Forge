@@ -32,15 +32,14 @@ class FaixasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const validacao = validationResult(req);
+      const { pagina } = req.query;
 
-      if (!validacao.isEmpty()) {
-        Erros.erroValidacao(res, validacao);
-      } else {
-        const faixas = await Faixa.find();
+      const faixas = await Faixa
+        .find()
+        .skip((pagina - 1) * 10)
+        .limit(10);
 
-        res.status(200).json(faixas);
-      }
+      res.status(200).json(faixas);
     } catch (error) {
       Erros.erro500(res, error);
     }
