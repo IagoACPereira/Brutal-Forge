@@ -30,15 +30,14 @@ class GravadorasController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const validacao = validationResult(req);
+      const { pagina } = req.query;
 
-      if (!validacao.isEmpty()) {
-        Erros.erroValidacao(res, validacao);
-      } else {
-        const gravadoras = await Gravadora.find();
+      const gravadoras = await Gravadora
+        .find()
+        .skip((pagina - 1) * 10)
+        .limit(10);
 
-        res.status(200).json(gravadoras);
-      }
+      res.status(200).json(gravadoras);
     } catch (error) {
       Erros.erro500(res, error);
     }
