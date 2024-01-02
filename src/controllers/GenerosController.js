@@ -30,12 +30,13 @@ class GenerosController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const { pagina } = req.query;
+      const pagina = req.query.pagina || 1;
+      const limite = req.query.limite || 10;
 
       const generos = await Genero
         .find()
-        .skip((pagina - 1) * 10)
-        .limit(10);
+        .skip((pagina - 1) * limite)
+        .limit(limite);
 
       res.status(200).json(generos);
     } catch (error) {

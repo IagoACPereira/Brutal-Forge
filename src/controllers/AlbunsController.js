@@ -35,12 +35,13 @@ class AlbunsController {
 
   static exibirTodos = async (req, res) => {
     try {
-      const { pagina } = req.query;
+      const pagina = req.query.pagina || 1;
+      const limite = req.query.limite || 10;
 
       const albuns = await Album
         .find()
-        .skip((pagina - 1) * 10)
-        .limit(10);
+        .skip((pagina - 1) * limite)
+        .limit(limite);
 
       res.status(200).json(albuns);
     } catch (error) {
@@ -57,7 +58,8 @@ class AlbunsController {
       } else {
         const { id } = req.params;
 
-        const album = await Album.findById(id);
+        const album = await Album
+          .findById(id);
 
         if (album) {
           res.status(200).json(album);
