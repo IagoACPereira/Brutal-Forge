@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Regiao = require('../models/Regioes');
+const Erros = require('../erros');
 
 class RegioesController {
   static adicionar = async (req, res) => {
@@ -7,10 +8,7 @@ class RegioesController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const novaRegiao = {
           pais: req.body.pais,
@@ -25,11 +23,7 @@ class RegioesController {
         });
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -38,21 +32,14 @@ class RegioesController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const regioes = await Regiao.find();
 
         res.status(200).json(regioes);
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -61,10 +48,7 @@ class RegioesController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -80,11 +64,7 @@ class RegioesController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -93,10 +73,7 @@ class RegioesController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -122,11 +99,7 @@ class RegioesController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -135,10 +108,7 @@ class RegioesController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -159,11 +129,7 @@ class RegioesController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 }

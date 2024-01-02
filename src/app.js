@@ -6,6 +6,7 @@ const gravadorasRouter = require('./routes/gravadorasRoutes');
 const albunsRouter = require('./routes/albunsRouter');
 const bandasRouter = require('./routes/bandasRouter');
 const faixasRouter = require('./routes/faixasRouter');
+const Erros = require('./erros');
 
 function application(app) {
   app.use(
@@ -25,6 +26,8 @@ function application(app) {
     regioesRouter,
     gravadorasRouter,
   );
+
+  app.use(Erros.erro404);
 }
 
 module.exports = application;
