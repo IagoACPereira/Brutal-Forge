@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Album = require('../models/Albuns');
+const Erros = require('../erros');
 
 class AlbunsController {
   static adicionar = async (req, res) => {
@@ -7,10 +8,7 @@ class AlbunsController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const novoAlbum = {
           titulo: req.body.titulo,
@@ -31,11 +29,7 @@ class AlbunsController {
         });
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -44,21 +38,14 @@ class AlbunsController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const albuns = await Album.find();
 
         res.status(200).json(albuns);
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -67,10 +54,7 @@ class AlbunsController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -86,11 +70,7 @@ class AlbunsController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -99,10 +79,7 @@ class AlbunsController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -134,11 +111,7 @@ class AlbunsController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -147,10 +120,7 @@ class AlbunsController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -171,11 +141,7 @@ class AlbunsController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 }

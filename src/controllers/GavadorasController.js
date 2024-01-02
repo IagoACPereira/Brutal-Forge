@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const Gravadora = require('../models/Gravadoras');
+const Erros = require('../erros');
 
 class GravadorasController {
   static adicionar = async (req, res) => {
@@ -7,10 +8,7 @@ class GravadorasController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const novaGravadora = {
           nome: req.body.nome,
@@ -26,11 +24,7 @@ class GravadorasController {
         });
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -39,21 +33,14 @@ class GravadorasController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const gravadoras = await Gravadora.find();
 
         res.status(200).json(gravadoras);
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -62,10 +49,7 @@ class GravadorasController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -81,11 +65,7 @@ class GravadorasController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -94,10 +74,7 @@ class GravadorasController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -124,11 +101,7 @@ class GravadorasController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -137,10 +110,7 @@ class GravadorasController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -161,11 +131,7 @@ class GravadorasController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 }

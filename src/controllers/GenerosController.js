@@ -1,6 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { validationResult } = require('express-validator');
 const Genero = require('../models/Generos');
+const Erros = require('../erros');
 
 class GenerosController {
   static adicionar = async (req, res) => {
@@ -8,10 +9,7 @@ class GenerosController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const novoGenero = {
           nome: req.body.nome,
@@ -26,11 +24,7 @@ class GenerosController {
         });
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -53,10 +47,7 @@ class GenerosController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -72,11 +63,7 @@ class GenerosController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -85,10 +72,7 @@ class GenerosController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -114,11 +98,7 @@ class GenerosController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -127,10 +107,7 @@ class GenerosController {
       const validacao = validationResult(req);
 
       if (!validacao.isEmpty()) {
-        res.status(400).send({
-          erro: validacao.array(),
-          status: 400,
-        });
+        Erros.erroValidacao(res, validacao);
       } else {
         const { id } = req.params;
 
@@ -151,11 +128,7 @@ class GenerosController {
         }
       }
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 }
