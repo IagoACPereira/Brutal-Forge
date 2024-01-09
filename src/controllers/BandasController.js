@@ -62,10 +62,7 @@ class BandasController {
         if (banda) {
           res.status(200).json(banda);
         } else {
-          res.status(400).json({
-            mensagem: `Não existe banda com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'banda', id);
         }
       }
     } catch (error) {
@@ -102,10 +99,7 @@ class BandasController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe banda com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'banda', id);
         }
       }
     } catch (error) {
@@ -132,10 +126,7 @@ class BandasController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe banda com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'banda', id);
         }
       }
     } catch (error) {

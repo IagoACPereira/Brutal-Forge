@@ -64,10 +64,8 @@ class AlbunsController {
         if (album) {
           res.status(200).json(album);
         } else {
-          res.status(400).json({
-            mensagem: `Não existe album com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'album', id);
+          // res.json('em testes');
         }
       }
     } catch (error) {
@@ -105,10 +103,7 @@ class AlbunsController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe album com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'album', id);
         }
       }
     } catch (error) {
@@ -135,10 +130,7 @@ class AlbunsController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe album com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'album', id);
         }
       }
     } catch (error) {

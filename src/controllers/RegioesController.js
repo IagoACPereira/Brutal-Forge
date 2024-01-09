@@ -57,10 +57,7 @@ class RegioesController {
         if (regiao) {
           res.status(200).json(regiao);
         } else {
-          res.status(400).json({
-            mensagem: `Não existe regiao com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'região', id);
         }
       }
     } catch (error) {
@@ -92,10 +89,7 @@ class RegioesController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe regiao com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'região', id);
         }
       }
     } catch (error) {
@@ -122,10 +116,7 @@ class RegioesController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe regiao com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'região', id);
         }
       }
     } catch (error) {

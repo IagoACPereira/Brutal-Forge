@@ -40,11 +40,7 @@ class GenerosController {
 
       res.status(200).json(generos);
     } catch (error) {
-      res.status(500).json({
-        mensagem: 'Ocorreu um erro interno no servidor!',
-        erro: error,
-        status: 500,
-      });
+      Erros.erro500(res, error);
     }
   };
 
@@ -62,10 +58,7 @@ class GenerosController {
         if (genero) {
           res.status(200).json(genero);
         } else {
-          res.status(400).json({
-            mensagem: `Não existe genero com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'gênero', id);
         }
       }
     } catch (error) {
@@ -97,10 +90,7 @@ class GenerosController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe genero com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'gênero', id);
         }
       }
     } catch (error) {
@@ -127,10 +117,7 @@ class GenerosController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe genero com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'gênero', id);
         }
       }
     } catch (error) {

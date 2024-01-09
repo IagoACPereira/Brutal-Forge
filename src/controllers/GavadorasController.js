@@ -58,10 +58,7 @@ class GravadorasController {
         if (gravadora) {
           res.status(200).json(gravadora);
         } else {
-          res.status(400).json({
-            mensagem: `Não existe gravadora com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'gravadora', id);
         }
       }
     } catch (error) {
@@ -94,10 +91,7 @@ class GravadorasController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe gravadora com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'gravadora', id);
         }
       }
     } catch (error) {
@@ -124,10 +118,7 @@ class GravadorasController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe gravadora com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'gravadora', id);
         }
       }
     } catch (error) {

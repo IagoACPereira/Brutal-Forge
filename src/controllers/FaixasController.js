@@ -60,10 +60,7 @@ class FaixasController {
         if (faixas) {
           res.status(200).json(faixas);
         } else {
-          res.status(400).json({
-            mensagem: `Não existe faixas com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'faixa', id);
         }
       }
     } catch (error) {
@@ -98,10 +95,7 @@ class FaixasController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe faixas com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'faixa', id);
         }
       }
     } catch (error) {
@@ -128,10 +122,7 @@ class FaixasController {
             status: 200,
           });
         } else {
-          res.status(400).json({
-            mensagem: `Não existe faixas com o id ${id}`,
-            status: 400,
-          });
+          Erros.idNaoEncontrado(res, 'faixa', id);
         }
       }
     } catch (error) {
