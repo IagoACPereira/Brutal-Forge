@@ -17,8 +17,15 @@ class Erros {
   };
 
   static erroValidacao = (res, validacao) => {
-    res.status(400).send({
+    res.status(400).json({
       erro: validacao.array(),
+      status: 400,
+    });
+  };
+
+  static idNaoEncontrado = (res, stringModelo, id) => {
+    res.status(400).json({
+      mensagem: `Não existe ${stringModelo} com o id ${id}`,
       status: 400,
     });
   };
