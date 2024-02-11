@@ -1,12 +1,14 @@
 const express = require('express');
 const { body, param } = require('express-validator');
 const AlbunsController = require('../controllers/AlbunsController');
+const validarToken = require('../middlewares/validarToken');
 
 const albunsRouter = express.Router();
 
 albunsRouter
   .post(
     '/albuns',
+    validarToken,
     [
       body('titulo').notEmpty().withMessage('Dados inválidos. É necessário um titulo para o novo album!'),
       body('titulo').isString().withMessage('Dados no formato inválido. É necessário que titulo seja String!'),
@@ -40,6 +42,7 @@ albunsRouter
   )
   .put(
     '/albuns/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),
@@ -67,6 +70,7 @@ albunsRouter
   )
   .delete(
     '/albuns/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),

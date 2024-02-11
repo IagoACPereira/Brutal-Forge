@@ -7,27 +7,30 @@ const albunsRouter = require('./routes/albunsRouter');
 const bandasRouter = require('./routes/bandasRouter');
 const faixasRouter = require('./routes/faixasRouter');
 const Erros = require('./erros');
+const usuariosRouter = require('./routes/usuariosRoutes');
+const authRouter = require('./routes/authRoutes');
 
-function application(app) {
-  app.use(
+const app = express();
+
+app
+  .use(
     express.json(),
     express.urlencoded({
       extended: true,
     }),
-  );
-
-  app.use(
+  )
+  .use(
     '/brutal-forge',
     router,
+    authRouter,
+    usuariosRouter,
     albunsRouter,
     bandasRouter,
     faixasRouter,
     generosRouter,
     regioesRouter,
     gravadorasRouter,
-  );
+  )
+  .use(Erros.erro404);
 
-  app.use(Erros.erro404);
-}
-
-module.exports = application;
+module.exports = app;

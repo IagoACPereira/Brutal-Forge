@@ -1,7 +1,7 @@
 class Erros {
   static erro404 = (req, res, next) => {
     res.status(404).json({
-      mensagem: 'Este EndPoint não existe. Favor verifique a requisição',
+      mensagem: 'Este EndPoint não existe. Favor verifique a rota que quer acessar.',
       status: 404,
     });
 

@@ -1,12 +1,14 @@
 const express = require('express');
 const { body, param } = require('express-validator');
 const RegioesController = require('../controllers/RegioesController');
+const validarToken = require('../middlewares/validarToken');
 
 const regioesRouter = express.Router();
 
 regioesRouter
   .post(
     '/regioes',
+    validarToken,
     [
       body('pais').notEmpty().withMessage('Dados inválidos. É necessário um pais para a nova região!'),
       body('pais').isString().withMessage('Dados no formato inválido. É necessário que seja String!'),
@@ -15,7 +17,6 @@ regioesRouter
   )
   .get(
     '/regioes',
-
     RegioesController.exibirTodos,
   )
   .get(
@@ -29,6 +30,7 @@ regioesRouter
   )
   .put(
     '/regioes/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),
@@ -40,6 +42,7 @@ regioesRouter
   )
   .delete(
     '/regioes/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),

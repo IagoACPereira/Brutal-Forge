@@ -1,12 +1,14 @@
 const express = require('express');
 const { body, param } = require('express-validator');
 const FaixasController = require('../controllers/FaixasController');
+const validarToken = require('../middlewares/validarToken');
 
 const faixasRouter = express.Router();
 
 faixasRouter
   .post(
     '/faixas',
+    validarToken,
     [
       body('titulo').notEmpty().withMessage('Dados inválidos. É necessário um titulo para a nova faixa!'),
       body('titulo').isString().withMessage('Dados no formato inválido. É necessário que titulo seja String!'),
@@ -37,6 +39,7 @@ faixasRouter
   )
   .put(
     '/faixas/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),
@@ -61,6 +64,7 @@ faixasRouter
   )
   .delete(
     '/faixas/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),

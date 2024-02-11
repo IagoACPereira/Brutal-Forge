@@ -1,12 +1,14 @@
 const express = require('express');
 const { body, param } = require('express-validator');
 const GravadorasController = require('../controllers/GavadorasController');
+const validarToken = require('../middlewares/validarToken');
 
 const gravadorasRouter = express.Router();
 
 gravadorasRouter
   .post(
     '/gravadoras',
+    validarToken,
     [
       body('nome').notEmpty().withMessage('Dados inválidos. É necessário um nome para a nova gravadora!'),
       body('nome').isString().withMessage('Dados no formato inválido. É necessário que nome seja String!'),
@@ -30,6 +32,7 @@ gravadorasRouter
   )
   .put(
     '/gravadoras/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),
@@ -46,6 +49,7 @@ gravadorasRouter
   )
   .delete(
     '/gravadoras/:id',
+    validarToken,
     [
       param('id').isByteLength({ min: 24 }).withMessage('O id tem que ter no mínimo 24 caracteres'),
       param('id').isByteLength({ max: 24 }).withMessage('O id tem que ter no máximo 24 caracteres'),
